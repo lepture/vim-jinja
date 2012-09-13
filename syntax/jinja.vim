@@ -18,71 +18,61 @@ unlet b:current_syntax
 
 syntax case match
 
-" Mark illegal characters
-syn match jinjaError "%}\|}}\|#}"
-
 " jinja template built-in tags and parameters
 " 'comment' doesn't appear here because it gets special treatment
-syn keyword jinjaStatement contained autoescape csrf_token empty
-" FIXME ==, !=, <, >, <=, and >= should be jinjaStatements:
-" syn keyword jinjaStatement contained == != < > <= >=
-syn keyword jinjaStatement contained and as block endblock by cycle debug else
-syn keyword jinjaStatement contained extends filter endfilter firstof for
-syn keyword jinjaStatement contained endfor if endif ifchanged endifchanged
-syn keyword jinjaStatement contained ifequal endifequal ifnotequal
-syn keyword jinjaStatement contained endifnotequal in include load not now or
-syn keyword jinjaStatement contained parsed regroup reversed spaceless
-syn keyword jinjaStatement contained endspaceless ssi templatetag openblock
-syn keyword jinjaStatement contained closeblock openvariable closevariable
-syn keyword jinjaStatement contained openbrace closebrace opencomment
-syn keyword jinjaStatement contained closecomment widthratio url with endwith
-syn keyword jinjaStatement contained get_current_language trans noop blocktrans
-syn keyword jinjaStatement contained endblocktrans get_available_languages
-syn keyword jinjaStatement contained get_current_language_bidi plural
+syn keyword jinjaStatement contained if else elif endif is not
+syn keyword jinjaStatement contained for in recursive endfor
+syn keyword jinjaStatement contained raw endraw
+syn keyword jinjaStatement contained block endblock extends super scoped
+syn keyword jinjaStatement contained macro endmacro call endcall
+syn keyword jinjaStatement contained from import as do continue break
+syn keyword jinjaStatement contained filter endfilter set
+syn keyword jinjaStatement contained include ignore missing
+syn keyword jinjaStatement contained with without context endwith
+syn keyword jinjaStatement contained trans endtrans pluralize
+syn keyword jinjaStatement contained autoescape endautoescape
 
 " jinja templete built-in filters
-syn keyword jinjaFilter contained add addslashes capfirst center cut date
-syn keyword jinjaFilter contained default default_if_none dictsort
-syn keyword jinjaFilter contained dictsortreversed divisibleby escape escapejs
-syn keyword jinjaFilter contained filesizeformat first fix_ampersands
-syn keyword jinjaFilter contained floatformat get_digit join last length length_is
-syn keyword jinjaFilter contained linebreaks linebreaksbr linenumbers ljust
-syn keyword jinjaFilter contained lower make_list phone2numeric pluralize
-syn keyword jinjaFilter contained pprint random removetags rjust slice slugify
-syn keyword jinjaFilter contained safe safeseq stringformat striptags
-syn keyword jinjaFilter contained time timesince timeuntil title
-syn keyword jinjaFilter contained truncatewords truncatewords_html unordered_list upper urlencode
-syn keyword jinjaFilter contained urlize urlizetrunc wordcount wordwrap yesno
+syn keyword jinjaFilter contained abs attr batch capitalize center default
+syn keyword jinjaFilter contained dictsort escape filesizeformat first
+syn keyword jinjaFilter contained float forceescape format groupby indent
+syn keyword jinjaFilter contained int join last length list lower pprint
+syn keyword jinjaFilter contained random replace reverse round safe slice
+syn keyword jinjaFilter contained sort string striptags sum
+syn keyword jinjaFilter contained title trim truncate upper urlize
+syn keyword jinjaFilter contained wordcount wordwrap
+
+" jinja template built-in tests
+syn keyword jinjaTest contained callable defined divisibleby escaped
+syn keyword jinjaTest contained even iterable lower mapping none number
+syn keyword jinjaTest contained odd sameas sequence string undefined upper
+
+syn keyword jinjaFunction contained range lipsum dict cycler joiner
+
 
 " Keywords to highlight within comments
 syn keyword jinjaTodo contained TODO FIXME XXX
 
 " jinja template constants (always surrounded by double quotes)
 syn region jinjaArgument contained start=/"/ skip=/\\"/ end=/"/
+syn keyword jinjaArgument contained true false
 
 " Mark illegal characters within tag and variables blocks
 syn match jinjaTagError contained "#}\|{{\|[^%]}}\|[&#]"
 syn match jinjaVarError contained "#}\|{%\|%}\|[<>!&#%]"
+syn cluster jinjaBlocks add=jinjaTagBlock,jinjaVarBlock,jinjaComBlock,jinjaComment
 
 " jinja template tag and variable blocks
-syn region jinjaTagBlock start="{%" end="%}" contains=jinjaStatement,jinjaFilter,jinjaArgument,jinjaTagError display
-syn region jinjaVarBlock start="{{" end="}}" contains=jinjaFilter,jinjaArgument,jinjaVarError display
-
-" jinja template 'comment' tag and comment block
-syn region jinjaComment start="{%\s*comment\s*%}" end="{%\s*endcomment\s*%}" contains=jinjaTodo
-syn region jinjaComBlock start="{#" end="#}" contains=jinjaTodo
-
-syn cluster jinjaBlocks add=jinjaTagBlock,jinjaVarBlock,jinjaComment,jinjaComBlock
-
-syn region jinjaTagBlock start="{%" end="%}" contains=jinjaStatement,jinjaFilter,jinjaArgument,jinjaTagError display containedin=ALLBUT,@jinjaBlocks
+syn region jinjaTagBlock start="{%" end="%}" contains=jinjaStatement,jinjaFilter,jinjaArgument,jinjaFilter,jinjaTest,jinjaTagError display containedin=ALLBUT,@jinjaBlocks
 syn region jinjaVarBlock start="{{" end="}}" contains=jinjaFilter,jinjaArgument,jinjaVarError display containedin=ALLBUT,@jinjaBlocks
-syn region jinjaComment start="{%\s*comment\s*%}" end="{%\s*endcomment\s*%}" contains=jinjaTodo containedin=ALLBUT,@jinjaBlocks
 syn region jinjaComBlock start="{#" end="#}" contains=jinjaTodo containedin=ALLBUT,@jinjaBlocks
 
 
 hi def link jinjaTagBlock PreProc
 hi def link jinjaVarBlock PreProc
 hi def link jinjaStatement Statement
+hi def link jinjaFunction Function
+hi def link jinjaTest Type
 hi def link jinjaFilter Identifier
 hi def link jinjaArgument Constant
 hi def link jinjaTagError Error
