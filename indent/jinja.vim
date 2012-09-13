@@ -3,6 +3,8 @@
 " Maintainer: Hsiaoming Yang <lepture@me.com>
 " Last Change: Sep 13, 2012
 
+" based on django indent by Steve Losh
+
 if exists("b:did_indent")
   finish
 endif
@@ -48,8 +50,8 @@ function! GetJinjaIndent(...)
   let tagstart = '.*' . '{%\s*'
   let tagend = '.*%}' . '.*'
 
-  let blocktags = '\(block\|for\|if\|with\|autoescape\|comment\|filter\|spaceless\)'
-  let midtags = '\(empty\|else\)'
+  let blocktags = '\(block\|for\|if\|with\|autoescape\|filter\|macro\|raw\|call\)'
+  let midtags = '\(elif\|else\)'
 
   let pnb_blockstart = pnb =~# tagstart . blocktags . tagend
   let pnb_blockend   = pnb =~# tagstart . 'end' . blocktags . tagend
