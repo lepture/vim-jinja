@@ -31,6 +31,22 @@ if exists("*GetJinjaIndent")
   finish
 endif
 
+function! GetHtmlIndent()
+  exe "let ind = ".b:html_indentexpr
+  return ind
+endfunction
+
+if !exists("s:indent_tags")
+  let s:indent_tags = {}
+endif
+
+function! AddBlockTags(taglist)
+  for itag in a:taglist
+    let s:indent_tags[itag] = 1
+    let s:indent_tags['/'.itag] = -1
+  endfor
+endfunction
+
 function! GetJinjaIndent(...)
   if a:0 && a:1 == '.'
     let v:lnum = line('.')
@@ -41,35 +57,30 @@ function! GetJinjaIndent(...)
 
   call cursor(v:lnum,vcol)
 
-  exe "let ind = ".b:html_indentexpr
+  let ind = GetHtmlIndent()
 
   let lnum = prevnonblank(v:lnum-1)
-  let pnb = getline(lnum)
-  let cur = getline(v:lnum)
-
-  let tagstart = '.*' . '{%\s*'
-  let tagend = '.*%}' . '.*'
+  let line = getline(lnum)
+  let cline = getline(v:lnum)
 
   let blocktags = '\(block\|for\|if\|with\|autoescape\|filter\|macro\|raw\|call\)'
   let midtags = '\(elif\|else\)'
 
-  let pnb_blockstart = pnb =~# tagstart . blocktags . tagend
-  let pnb_blockend   = pnb =~# tagstart . 'end' . blocktags . tagend
-  let pnb_blockmid   = pnb =~# tagstart . midtags . tagend
-
-  let cur_blockstart = cur =~# tagstart . blocktags . tagend
-  let cur_blockend   = cur =~# tagstart . 'end' . blocktags . tagend
-  let cur_blockmid   = cur =~# tagstart . midtags . tagend
-
-  if pnb_blockstart && !pnb_blockend
+  if line =~# '^\s*{%-\?\s*'.blocktags.'\s*-\?%}$'
+    echomsg "line start"
     let ind = ind + &sw
-  elseif pnb_blockmid && !pnb_blockend
+  if line =~# '^\s*{%-\?\s*'.midtags.'\s*-\?%}$'
+    echomsg "line mid"
     let ind = ind + &sw
   endif
 
-  if cur_blockend && !cur_blockstart
+  if cline =~# '^\s*{%-\?\s*end'.blocktags.'\s*-\?%}$'
+    echomsg = 'cline end'
     let ind = ind - &sw
-  elseif cur_blockmid
+  endif
+
+  if cline =~# '^\s*{%-\?\s*'.midtags.'\s*-\?%}$'
+    echomsg "mid end"
     let ind = ind - &sw
   endif
 

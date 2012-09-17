@@ -10,7 +10,7 @@ Jinja bundle for vim.
 
 ## Installation
 
-- Install with [Vundle](https://github.com/gmarik/vundle)
+### Install with [Vundle](https://github.com/gmarik/vundle)
 
 If you are not using vundle, you really should have a try.
 Edit your vimrc:
@@ -23,7 +23,7 @@ And install it:
     :BundleInstall
 
 
-- Install with [pathogen](https://github.com/tpope/vim-pathogen)
+### Install with [pathogen](https://github.com/tpope/vim-pathogen)
 
 If you prefer tpope's pathogen, that's ok. Just clone it:
 
