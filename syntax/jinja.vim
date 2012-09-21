@@ -55,6 +55,7 @@ syn keyword jinjaTodo contained TODO FIXME XXX
 
 " jinja template constants (always surrounded by double quotes)
 syn region jinjaArgument contained start=/"/ skip=/\\"/ end=/"/
+syn region jinjaArgument contained start=/'/ skip=/\\'/ end=/'/
 syn keyword jinjaArgument contained true false
 
 " Mark illegal characters within tag and variables blocks
