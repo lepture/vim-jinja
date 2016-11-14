@@ -10,5 +10,5 @@ fun! s:SelectHTML()
     let n = n + 1
   endwhile
 endfun
-autocmd BufNewFile,BufRead *.html,*.htm,*.nunjucks,*.nunjs,*.njk  call s:SelectHTML()
-autocmd BufNewFile,BufRead *.jinja2,*.j2,*.jinja set ft=jinja
+autocmd BufNewFile,BufRead *.html,*.htm call s:SelectHTML()
+autocmd BufNewFile,BufRead *.jinja2,*.j2,*.jinja,*.nunjucks,*.nunjs,*.njk set ft=jinja
