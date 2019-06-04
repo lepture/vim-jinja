@@ -1,7 +1,7 @@
 " jinja syntax file
 " Language: Jinja HTML template
-" Maintainer: Hsiaoming Yang <lepture@me.com>
-" Last Change: Sep 13, 2012
+" Maintainer: Greg Potts
+" Last Change: Jun 4, 2019
 
 " only support 6.x+
 
@@ -49,7 +49,6 @@ syn keyword jinjaTest contained odd sameas sequence string undefined upper
 
 syn keyword jinjaFunction contained range lipsum dict cycler joiner
 
-
 " Keywords to highlight within comments
 syn keyword jinjaTodo contained TODO FIXME XXX
 
@@ -68,14 +67,17 @@ syn region jinjaTagBlock start="{%" end="%}" contains=jinjaStatement,jinjaFilter
 syn region jinjaVarBlock start="{{" end="}}" contains=jinjaFilter,jinjaArgument,jinjaVarError display containedin=ALLBUT,@jinjaBlocks
 syn region jinjaComBlock start="{#" end="#}" contains=jinjaTodo containedin=ALLBUT,@jinjaBlocks
 
+syn match jinjaOperator containedin=jinjaVarBlock,jinjaTagBlock contained /\./ nextgroup=jinjaAttribute
+syn match jinjaAttribute contained /[a-zA-Z_][a-zA-Z0-9_]*/
 
+hi def link jinjaAttribute Identifier
 hi def link jinjaTagBlock PreProc
 hi def link jinjaVarBlock PreProc
 hi def link jinjaStatement Statement
 hi def link jinjaFunction Function
 hi def link jinjaTest Type
 hi def link jinjaFilter Identifier
-hi def link jinjaArgument Constant
+hi def link jinjaArgument String
 hi def link jinjaTagError Error
 hi def link jinjaVarError Error
 hi def link jinjaError Error
