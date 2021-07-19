@@ -1,7 +1,7 @@
 " Vim indent file
 " Language:	Jinja HTML template
 " Maintainer:	Evan Hammer <evan@evanhammer.com>
-" Last Change:	2013 Jan 26
+" Last Change:	2021 Jul 17
 
 " Only load this indent file when no other was loaded.
 if exists("b:did_indent")
@@ -50,10 +50,10 @@ function! GetDjangoIndent(...)
     let pnb = getline(lnum)
     let cur = getline(v:lnum)
 
-    let tagstart = '.*' . '{%\s*'
-    let tagend = '.*%}' . '.*'
+    let tagstart = '.*' . '{%-\?\s*'
+    let tagend = '.*-\?%}' . '.*'
 
-    let blocktags = '\(block\|for\|if\|with\|autoescape\|comment\|filter\|spaceless\)'
+    let blocktags = '\(block\|for\|if\|with\|autoescape\|comment\|filter\|spaceless\|macro\)'
     let midtags = '\(empty\|else\|elif\)'
 
     let pnb_blockstart = pnb =~# tagstart . blocktags . tagend
