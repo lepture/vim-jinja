@@ -26,7 +26,7 @@ syn keyword jinjaStatement contained raw endraw
 syn keyword jinjaStatement contained block endblock extends super scoped
 syn keyword jinjaStatement contained macro endmacro call endcall
 syn keyword jinjaStatement contained from import as do continue break
-syn keyword jinjaStatement contained filter endfilter set
+syn keyword jinjaStatement contained filter endfilter set endset
 syn keyword jinjaStatement contained include ignore missing
 syn keyword jinjaStatement contained with without context endwith
 syn keyword jinjaStatement contained trans endtrans pluralize
